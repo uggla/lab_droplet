@@ -1,0 +1,92 @@
+{% extends "navbar.html" %}
+
+{% block scripts %}
+<script>
+$( document ).ready(function() {
+    console.log( "Document ready !" );
+    vmstatus()
+});
+
+function vmstatus(){
+    if ("WebSocket" in window) {
+        url = "ws://" + server + "/vmstatus"
+
+        ws = new WebSocket(url);
+
+        ws.onmessage = function (msg) {
+            var data = JSON.parse(msg.data);
+            console.log(data);
+            $("#wait").hide();
+            msg = 'vm creation complete';
+            notify(msg);
+            $("#vmname").html(data.vmname);
+            $("#vmip").html(data.vmip);
+            $("#cnx").html("root@" + data.vmip);
+            $("#title").html("Droplet creation completed");
+        }
+
+        var data = {
+            vmid: $("#vmid").html()
+        };
+        console.log(data)
+        // Send the msg object as a JSON-formatted string.
+        ws.onopen = function (event) { ws.send(JSON.stringify(data)) };
+
+        ws.onclose = function(){
+            //setTimeout(vmstatus, 1000);  // Reopen the websocket if it is closed due to nw pb
+        }
+    } else {
+        alert("WebSocket not supported");
+    }
+}
+
+
+
+</script>
+{% endblock %}
+
+
+{% block navmenu %}
+<!-- Menu -->
+<li class="active"><a href="/available">Droplet</a></li>
+{% endblock %}
+
+
+{% block content %}
+<h1 id="title">Droplet creation in progress</h1>
+<p id='wait'>
+    Please wait &nbsp;
+    <img src="img/waiting.gif" alt="wait" style="width:20px;height:20px;"/>
+</p>
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>VM carateristics</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tr>
+            <td class="text-left">id</td>
+            <td id="vmid" class="text-left">{{ r }}</td>
+        </tr>
+        <tr>
+            <td class="text-left">name</td>
+            <td id="vmname" class="text-left"></td>
+        </tr>
+        <tr>
+            <td class="text-left">ip</td>
+            <td id="vmip" class="text-left"></td>
+        </tr>
+        <tr>
+            <td class="text-left">connect</td>
+            <td id="cnx" class="text-left"></td>
+        </tr>
+    </table>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div id="usermsg"></div>
+        </div>
+    </nav>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "navbar.html" %}
+
+{% block scripts %}
+<script>
+$( document ).ready(function() {
+    console.log( "Document ready !" );
+    $("#submit").click(function(){console.log("clicked")});
+});
+</script>
+{% endblock %}
+
+
+{% block navmenu %}
+<!-- Menu -->
+<li class="active"><a href="/available">Droplet</a></li>
+{% endblock %}
+
+
+{% block content %}
+    <h1>Get your droplet</h1>
+    <p>Please enter the following information</p>
+    <form action="/create_droplet" method="post">
+        <div class="form-group">
+            <label for="InputAccount">Account name (min 4 chars)</label>
+            <input type="text" name="InputAccount" class="form-control" id="InputAccount" placeholder="Account name" pattern="\w{4,}" required >
+            <label for="InputPubSSH">Public ssh key</label>
+            <textarea class="form-control" id="InputPubSSH" name="InputPubSSH" placeholder="Public ssh key" required></textarea>
+            <label class="radio-inline">
+            <input type="radio" name="InputDistro" value="ubuntu" id="ubuntu" checked> Ubuntu<br>
+            </label>
+            <label class="radio-inline">
+            <input type="radio" name="InputDistro" value="centos" id="centos"> Centos<br>
+            </label>
+        </div>
+        <button type="submit" class="btn btn-default" id="submit">Submit</button>
+    </form>
+
+    <nav class="navbar navbar-default navbar-fixed-bottom">
+        <div class="container">
+            <div id="usermsg"></div>
+        </div>
+    </nav>
+{% endblock %}
