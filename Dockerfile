@@ -12,6 +12,6 @@ COPY . .
 #RUN pytest 
 RUN useradd lab
 VOLUME /usr/src/app/data
-RUN chown -R lab:lab /usr/src/app/data
+RUN chown -R lab:lab /usr/src/app
 USER lab
 CMD [ "./exec_server.sh" ]
