@@ -25,6 +25,7 @@ $( document ).ready(function() {
             <input type="text" name="InputAccount" class="form-control" id="InputAccount" placeholder="Account name" pattern="\w{4,}" required >
             <label for="InputPubSSH">Public ssh key</label>
             <textarea class="form-control" id="InputPubSSH" name="InputPubSSH" placeholder="Public ssh key" required></textarea>
+            <br></br>
             <label class="radio-inline">
             <input type="radio" name="InputDistro" value="ubuntu" id="ubuntu" checked> Ubuntu<br>
             </label>
@@ -33,6 +34,13 @@ $( document ).ready(function() {
             </label>
             <label class="radio-inline">
             <input type="radio" name="InputDistro" value="docker" id="docker"> Docker Ubuntu 18.04<br>
+            </label>
+            <br></br>
+            <label class="radio-inline">
+            <input type="radio" name="InputFlavor" value="1GB" id="1GB" checked> Memory = 1GB<br>
+            </label>
+            <label class="radio-inline">
+            <input type="radio" name="InputFlavor" value="4GB" id="4GB"> Memory = 4GB<br>
             </label>
         </div>
         <button type="submit" class="btn btn-default" id="submit">Submit</button>

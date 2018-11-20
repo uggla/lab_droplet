@@ -106,16 +106,18 @@ def create_droplet():
     pprint(request.form["InputAccount"])
     pprint(request.form["InputPubSSH"])
     pprint(request.form["InputDistro"])
+    pprint(request.form["InputFlavor"])
     vmid = new_droplet(
         request.form["InputAccount"],
         request.form["InputPubSSH"],
         request.form["InputDistro"],
+        request.form["InputFlavor"],
     )
     html = render_template("droplet.html", vmid)
     return html
 
 
-def new_droplet(account, pubssh, distro):
+def new_droplet(account, pubssh, distro, flavor):
     ANIMALS_LIST_URL = "https://raw.githubusercontent.com/hzlzh/Domain-Name-List/master/Animal-words.txt"  # noqa
     ADJECTIVES_LIST_URL = "https://raw.githubusercontent.com/gef756/namegen/master/adjectives.txt"  # noqa
     TAG = ["docker", account]
@@ -127,7 +129,10 @@ def new_droplet(account, pubssh, distro):
     elif distro == "docker":
         IMAGE = "docker-18-04"
 
-    DROPLET_SIZE = "s-1vcpu-1gb"
+    if flavor == "1GB":
+        DROPLET_SIZE = "s-1vcpu-1gb"
+    elif flavor == "4GB":
+        DROPLET_SIZE = "s-2vcpu-4gb"
 
     TOKEN = os.getenv("DIGITALOCEAN_TOKEN")
 
